@@ -1,0 +1,17 @@
+.body {
+    margin: 0;
+}
+
+.navbar {
+    background-color: #61dafb;
+    alignment: center;
+    color: red;
+}
+
+.headerBar {
+    width: 50px;
+    height: 50px;
+    color: white;
+    background-color: aquamarine;
+}
+
