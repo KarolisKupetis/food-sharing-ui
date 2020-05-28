@@ -63,7 +63,6 @@ export default function SignIn() {
            });
 
        } else {
-           console.log("fired a cannon")
            Swal.fire({
                icon: 'success',
                text: 'Sėkmingai prisijungėte',
