@@ -104,8 +104,14 @@ class FormPublication extends Component {
         if (response.status == "201") {
             Swal.fire({
                 icon: 'success',
+                text: "Sėkmingai sukurtas įrašas"
             });
             this.resetState();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                text: "Neteisingi duomenys"
+            });
         }
 
     };

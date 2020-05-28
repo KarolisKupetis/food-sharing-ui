@@ -75,9 +75,15 @@ class PublicationModal extends Component {
         if (response.status == "200") {
             Swal.fire({
                 icon: 'success',
+                text: 'Sėkmingai atnaujintas įrašas',
             });
 
             this.closeModal();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                text: 'Neteisingi duomenys',
+            });
         }
     };
 

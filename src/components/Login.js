@@ -66,6 +66,7 @@ export default function SignIn() {
            console.log("fired a cannon")
            Swal.fire({
                icon: 'success',
+               text: 'Sėkmingai prisijungėte',
            });
 
            setValue({id: data.id});

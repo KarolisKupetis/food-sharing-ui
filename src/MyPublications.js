@@ -76,6 +76,7 @@ export default function MyPublications(props) {
 
             Swal.fire({
                 icon: 'success',
+                text: 'Sėkmingai ištrintas įrašas',
             });
         }
     }

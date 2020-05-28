@@ -31,7 +31,7 @@ export default class PublicationList extends Component {
     };
 
     setCategory = (category) => {
-        console.log(category)
+        console.log(category);
         this.setState({category : category});
         this.getPublications(category);
     };
