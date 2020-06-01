@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import Publication from "./Publication";
-import { Grid } from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import SearchBar from "./SearchBar";
 import UserLocationContext from "./UserLocationContext";
 import Button from "@material-ui/core/Button";
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 export default class PublicationList extends Component {
     static contextType = UserLocationContext;
@@ -17,7 +17,7 @@ export default class PublicationList extends Component {
             pubs: [],
             redirect: false,
             id: props.id,
-            redirectPersonal : false,
+            redirectPersonal: false,
             category: ''
         };
     }
@@ -32,43 +32,43 @@ export default class PublicationList extends Component {
 
     setCategory = (category) => {
         console.log(category);
-        this.setState({category : category});
+        this.setState({category: category});
         this.getPublications(category);
     };
 
-     redirectToPost = () => {
+    redirectToPost = () => {
         const redirectTo = '/publications/post';
-        return <Redirect to={redirectTo} />
+        return <Redirect to={redirectTo}/>
     };
 
-     redirectSet = () => {
-       this.setState({redirect: true})
+    redirectSet = () => {
+        this.setState({redirect: true})
     };
 
-     redirectPersonalSet  = () => {
-         this.setState({redirectPersonal: true})
-     };
+    redirectPersonalSet = () => {
+        this.setState({redirectPersonal: true})
+    };
 
-     redirectToPersonal = () => {
-         const redirectTo = '/publications/personal';
-         return <Redirect to={redirectTo} />
-     };
+    redirectToPersonal = () => {
+        const redirectTo = '/publications/personal';
+        return <Redirect to={redirectTo}/>
+    };
 
     async componentDidMount() {
         this.getPublications();
     }
 
     setPublications = (publications) => {
-        this.setState({pubs : publications});
+        this.setState({pubs: publications});
     };
 
-     async getPublications(category)  {
+    async getPublications(category) {
         let url = "http://localhost:8080/publication?longitude="
             + this.context.location.lng
-            + "&latitude="+ this.context.location.lat;
+            + "&latitude=" + this.context.location.lat;
 
         if (category) {
-            url += "&category="+ category;
+            url += "&category=" + category;
         }
 
         const response = await fetch(url);
@@ -78,11 +78,12 @@ export default class PublicationList extends Component {
     };
 
     getPublicationsButton1 = () => {
-      return (
-              <Grid item xs={12} sm={2}>
-                  <Button color="primary" variant="contained" onClick={this.redirectPersonalSet}>Peržiūrėti savo skelbimus</Button>
-              </Grid>
-      )
+        return (
+            <Grid item xs={12} sm={2}>
+                <Button color="primary" variant="contained" onClick={this.redirectPersonalSet}>Peržiūrėti savo
+                    skelbimus</Button>
+            </Grid>
+        )
     };
 
     getPublicationsButton2 = () => {
@@ -97,10 +98,10 @@ export default class PublicationList extends Component {
         return (
             <div>
                 <Grid container spacing={4}>
-                    <Grid item xs={12} sm={4} >
-                        <SearchBar categorySet = {this.setCategory}/>
+                    <Grid item xs={12} sm={4}>
+                        <SearchBar categorySet={this.setCategory}/>
                     </Grid>
-                    <Grid item xs={12} sm={4} >
+                    <Grid item xs={12} sm={4}>
                     </Grid>
                     {this.state.id && this.getPublicationsButton1()}
                     {this.state.id && this.getPublicationsButton2()}
@@ -122,7 +123,7 @@ export default class PublicationList extends Component {
         }
 
         return (
-           this.getRender()
+            this.getRender()
         )
     }
 };

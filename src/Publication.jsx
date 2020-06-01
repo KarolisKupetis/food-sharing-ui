@@ -1,6 +1,5 @@
-
 import React, {useState} from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
@@ -21,7 +20,7 @@ const Publication = props => {
         },
 
         distanceStyle: {
-            color:"blue"
+            color: "blue"
         }
     }));
 
@@ -45,9 +44,9 @@ const Publication = props => {
 
     const classes = useStyles();
 
-   function redirectToDash() {
-       const redirectTo = '/publication/' + id;
-       return <Redirect to={redirectTo} />
+    function redirectToDash() {
+        const redirectTo = '/publication/' + id;
+        return <Redirect to={redirectTo}/>
     }
 
     function redirectSet() {
@@ -58,16 +57,16 @@ const Publication = props => {
         return (
             <Card>
                 <CardHeader
-                    avatar={<Avatar src={imageLink} />}
+                    avatar={<Avatar src={imageLink}/>}
                     action={
                         <IconButton aria-label="settings">
-                            <ShareIcon />
+                            <ShareIcon/>
                         </IconButton>
                     }
                     title={name}
                     subheader={getCategoryMatch(category)}
                 />
-                <CardMedia style={{ height: "300px" }} image={imageLink} />
+                <CardMedia style={{height: "300px"}} image={imageLink}/>
                 <CardContent>
                     <Typography variant="body2" component="p" className={classes.myStyle}>
                         {description}

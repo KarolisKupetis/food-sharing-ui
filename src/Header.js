@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import {AppBar, Toolbar, Typography} from "@material-ui/core";
 import AcUnitRoundedIcon from "@material-ui/icons/AcUnitRounded";
-import { makeStyles } from "@material-ui/styles";
-import { Link} from "react-router-dom";
+import {makeStyles} from "@material-ui/styles";
+import {Link} from "react-router-dom";
 import UserContext from "./UserContext";
 
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 
     withMargin: {
         marginRight: "50px",
-        color:"white",
+        color: "white",
         textDecoration: "solid"
     }
 }));
@@ -24,7 +24,7 @@ const Header = () => {
 
     function login() {
         return (
-            <Link to="/login" style={{ textDecoration: 'none' }}>
+            <Link to="/login" style={{textDecoration: 'none'}}>
                 <Typography className={classes.withMargin}>
                     Prisijungti
                 </Typography>
@@ -36,12 +36,12 @@ const Header = () => {
         const url = "http://localhost:8080/auth/1";
         const response = await fetch(url, {credentials: 'include', method: 'DELETE'});
 
-        setValue({ id: null});
+        setValue({id: null});
     }
 
     function logOut() {
         return (
-            <Link to="/publications" style={{ textDecoration: 'none' }} onClick={logOutAction}>
+            <Link to="/publications" style={{textDecoration: 'none'}} onClick={logOutAction}>
                 <Typography className={classes.withMargin}>
                     Atsijungti
                 </Typography>
@@ -51,7 +51,7 @@ const Header = () => {
 
     function register() {
         return (
-            <Link to="/signup" style={{ textDecoration: 'none' }}>
+            <Link to="/signup" style={{textDecoration: 'none'}}>
                 <Typography className={classes.withMargin}>
                     Registruotis
                 </Typography>
@@ -63,16 +63,16 @@ const Header = () => {
         <AppBar position="static">
             <Toolbar>
                 <Typography className={classes.typographyStyles}>
-                   Foodshare
+                    Foodshare
                 </Typography>
-                <Link to="/publications" style={{ textDecoration: 'none' }}>
-                    <Typography className={classes.withMargin} >
+                <Link to="/publications" style={{textDecoration: 'none'}}>
+                    <Typography className={classes.withMargin}>
                         Pagrindinis
                     </Typography>
                 </Link>
                 {value.id ? logOut() : login()}
                 {value.id == null && register()}
-                <AcUnitRoundedIcon />
+                <AcUnitRoundedIcon/>
             </Toolbar>
         </AppBar>
     );

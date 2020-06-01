@@ -1,9 +1,9 @@
 import React, {useLayoutEffect, useState} from 'react'
 import {Route, Switch} from 'react-router-dom'
-import { Grid } from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import Header from "./Header";
 import PublicationList from "./PublicationList";
-import { makeStyles } from "@material-ui/styles";
+import {makeStyles} from "@material-ui/styles";
 import FormPublication from "./components/PublicationForm/FormPublication";
 import SignIn from "./components/Login"
 import SignUp from "./components/SignUp";
@@ -17,45 +17,45 @@ const useStyles = makeStyles(() => ({
         marginBottom: 75
     },
 }));
-const App= () => {
+const App = () => {
     const classes = useStyles();
     const [value, setValue] = useState(null);
     const [loaded, setLoaded] = useState(false);
     const [location, setLocation] = useState({});
     const [locLoaded, setLocLoaded] = useState(false);
 
-     useLayoutEffect(() => {
+    useLayoutEffect(() => {
 
         seeIfLoggedIn();
 
     }, []);
 
-      async function seeIfLoggedIn() {
-         const url = "http://localhost:8080/auth";
-         const response = await fetch(url, {credentials: 'include'});
-         const data = await response.json();
-         if ("geolocation" in navigator) {
-             navigator.geolocation.getCurrentPosition(function(position) {
-                     getPosition(position);
-             });
-         }
+    async function seeIfLoggedIn() {
+        const url = "http://localhost:8080/auth";
+        const response = await fetch(url, {credentials: 'include'});
+        const data = await response.json();
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                getPosition(position);
+            });
+        }
 
-         if (data.id !== 0) {
-             setValue({id: data.id});
-         } else {
-             setValue({id: null});
-         }
+        if (data.id !== 0) {
+            setValue({id: data.id});
+        } else {
+            setValue({id: null});
+        }
 
-         setLoaded(true);
-     }
+        setLoaded(true);
+    }
 
-     function getValue() {
+    function getValue() {
         return value.id;
-     }
+    }
 
     function getPosition(position) {
-          setLocation({lng: position.coords.longitude, lat: position.coords.latitude});
-          setLocLoaded(true);
+        setLocation({lng: position.coords.longitude, lat: position.coords.latitude});
+        setLocLoaded(true);
     }
 
     function getRender() {
@@ -85,7 +85,7 @@ const App= () => {
 
     return (
         <UserContext.Provider value={{value, setValue}}>
-            <UserLocationContext.Provider value={{location, setLocation}} >
+            <UserLocationContext.Provider value={{location, setLocation}}>
                 {(loaded && locLoaded) ? getRender() : <div> Loading </div>}
             </UserLocationContext.Provider>
         </UserContext.Provider>

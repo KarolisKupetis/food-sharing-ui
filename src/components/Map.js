@@ -1,16 +1,17 @@
 import React from 'react'
-import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
+import {withGoogleMap, GoogleMap, withScriptjs, Marker} from "react-google-maps";
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import {UserLocationContext} from "../UserLocationContext";
+
 Geocode.setApiKey("");
 Geocode.enableDebug();
 
-class Map extends React.Component{
+class Map extends React.Component {
     static contextType = UserLocationContext;
 
-    constructor( props ){
-        super( props );
+    constructor(props) {
+        super(props);
 
         this.state = {
             address: '',
@@ -33,17 +34,18 @@ class Map extends React.Component{
      * Get the current address from the default map position and set those values in the state
      */
     componentDidMount() {
-        Geocode.fromLatLng( this.state.mapPosition.lat , this.state.mapPosition.lng ).then(
+        Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
             response => {
-                this.setState( {
+                this.setState({
                     address: '',
-                } )
+                })
             },
             error => {
                 console.error(error);
             }
         );
     };
+
     /**
      * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
      *
@@ -51,7 +53,7 @@ class Map extends React.Component{
      * @param nextState
      * @return {boolean}
      */
-    shouldComponentUpdate( nextProps, nextState ){
+    shouldComponentUpdate(nextProps, nextState) {
         return nextState.mapPosition.lat !== this.state.mapPosition.lat;
     }
 
@@ -59,8 +61,8 @@ class Map extends React.Component{
      * And function for city,state and address input
      * @param event
      */
-    onChange = ( event ) => {
-        this.setState({ [event.target.name]: event.target.value });
+    onChange = (event) => {
+        this.setState({[event.target.name]: event.target.value});
     };
 
     /**
@@ -71,14 +73,14 @@ class Map extends React.Component{
      * @param event
      */
 
-    onMarkerDragEnd = ( event ) => {
+    onMarkerDragEnd = (event) => {
         let newLat = event.latLng.lat(),
             newLng = event.latLng.lng();
 
         this.props.onLatchange(newLat, newLng);
     };
 
-    onPlaceSelected = ( place ) => {
+    onPlaceSelected = (place) => {
         const latValue = place.geometry.location.lat(),
             lngValue = place.geometry.location.lng();
 
@@ -108,7 +110,7 @@ class Map extends React.Component{
                         marginTop: '2px',
                         marginBottom: '100px'
                     }}
-                    onPlaceSelected={ this.onPlaceSelected }
+                    onPlaceSelected={this.onPlaceSelected}
                     types={['address']}
                     componentRestrictions={{country: "lt"}}
                 />
@@ -142,25 +144,25 @@ class Map extends React.Component{
         );
 
         let map;
-        if( this.props.center.lat !== undefined ) {
+        if (this.props.center.lat !== undefined) {
             map = <div>
                 <AsyncMap
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=&libraries=places"
                     loadingElement={
-                        <div style={{ height: `100%`}} />
+                        <div style={{height: `100%`}}/>
                     }
                     containerElement={
-                        <div style={{ height: this.props.height}} />
+                        <div style={{height: this.props.height}}/>
                     }
                     mapElement={
-                        <div style={{ height: `100%`}} />
+                        <div style={{height: `100%`}}/>
                     }
                 />
             </div>
         } else {
-            map = <div style={{height: this.props.height}} />
+            map = <div style={{height: this.props.height}}/>
         }
-        return( map )
+        return (map)
     }
 }
 

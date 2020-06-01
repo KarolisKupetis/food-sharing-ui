@@ -5,7 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import MenuItem from '@material-ui/core/MenuItem';
 import {CardMedia} from "@material-ui/core";
 import Map from "../Map";
-import { Grid } from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import {Redirect} from "react-router-dom";
 import {UserLocationContext} from "../../UserLocationContext";
 import Swal from 'sweetalert2'
@@ -44,8 +44,8 @@ class FormPublication extends Component {
             description: '',
             category: 'veg',
             file: '',
-            latitude : 54.705316192588626,
-            longitude : 25.303910311889645,
+            latitude: 54.705316192588626,
+            longitude: 25.303910311889645,
             loaded: false
         }
     }
@@ -53,7 +53,7 @@ class FormPublication extends Component {
     onImageUpload = (event) => {
         if (event.target.files[0]) {
             this.setState({
-                file:event.target.files[0],
+                file: event.target.files[0],
                 image: URL.createObjectURL(event.target.files[0])
             });
         }
@@ -61,15 +61,15 @@ class FormPublication extends Component {
 
     onChange = (event) => {
         const {name, value} = event.target;
-        this.setState({[name] : value});
+        this.setState({[name]: value});
     };
 
     onLatLonChange = (lat, lng) => {
-        this.setState({latitude : lat, longitude: lng});
+        this.setState({latitude: lat, longitude: lng});
     };
 
     onClickHandler = () => {
-       this.onSubmit();
+        this.onSubmit();
     };
 
     resetState = () => {
@@ -79,21 +79,21 @@ class FormPublication extends Component {
             category: 'veg',
             file: '',
             image: '',
-            name:'',
+            name: '',
         })
     };
 
-     onSubmit = async (event) => {
-         const formData = new FormData();
-         for (let name in this.state) {
-             if (name === 'file') {
-                 formData.append('image', this.state[name]);
-             } else if(name != "loaded"){
-                 formData.append(name, this.state[name]);
-             }
-         }
+    onSubmit = async (event) => {
+        const formData = new FormData();
+        for (let name in this.state) {
+            if (name === 'file') {
+                formData.append('image', this.state[name]);
+            } else if (name != "loaded") {
+                formData.append(name, this.state[name]);
+            }
+        }
 
-        const requestOptions ={
+        const requestOptions = {
             method: 'POST',
             credentials: 'include',
             body: formData
@@ -116,9 +116,9 @@ class FormPublication extends Component {
 
     };
 
-     initialLocationChange = () => {
-         this.setState({latitude : this.context.location.lat, longitude: this.context.location.lng , loaded : true})
-     };
+    initialLocationChange = () => {
+        this.setState({latitude: this.context.location.lat, longitude: this.context.location.lng, loaded: true})
+    };
 
     getRender = () => {
         return (
@@ -164,9 +164,10 @@ class FormPublication extends Component {
                     ))}
                 </TextField>
                 <Button color="primary" variant="contained" onClick={this.onClickHandler}>Paskelbti</Button>
-                <input accept="image/*" style={{ display: 'none' }} id="raised-button-file" multiple type="file" onChange={this.onImageUpload}/>
+                <input accept="image/*" style={{display: 'none'}} id="raised-button-file" multiple type="file"
+                       onChange={this.onImageUpload}/>
                 <label htmlFor="raised-button-file">
-                    <Button variant="contained"  color="primary" component="span" style={{margin: "10px"}}>
+                    <Button variant="contained" color="primary" component="span" style={{margin: "10px"}}>
                         Ikelti paveiksleli
                     </Button>
                 </label>
@@ -181,7 +182,8 @@ class FormPublication extends Component {
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        {this.state.image && <CardMedia style={{ height: "300px", width: "300px"}} image={this.state.image} />}
+                        {this.state.image &&
+                        <CardMedia style={{height: "300px", width: "300px"}} image={this.state.image}/>}
                     </Grid>
                 </Grid>
             </div>
@@ -190,15 +192,15 @@ class FormPublication extends Component {
 
     render() {
         function redirectToDash() {
-                return <Redirect to='/publications' />
+            return <Redirect to='/publications'/>
         }
 
-        if(!this.state.loaded) {
+        if (!this.state.loaded) {
             this.initialLocationChange();
         }
 
         return (
-             this.state.loaded ? this.getRender() : <div>Loading</div>
+            this.state.loaded ? this.getRender() : <div>Loading</div>
         )
     }
 }

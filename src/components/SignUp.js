@@ -1,4 +1,3 @@
-
 import React, {useContext, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -7,11 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Swal from "sweetalert2";
 import UserContext from "../UserContext";
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -46,11 +45,11 @@ export default function SignUp() {
     async function onSubmit(e) {
         e.preventDefault();
 
-        const requestOptions ={
+        const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             credentials: 'include',
-            body: JSON.stringify({ email: email, password: password, fullName: name+" "+surname, number:number})
+            body: JSON.stringify({email: email, password: password, fullName: name + " " + surname, number: number})
         };
 
         const response = await fetch('http://localhost:8080/user', requestOptions);
@@ -71,12 +70,11 @@ export default function SignUp() {
 
             setValue({id: data.id});
         }
-
     }
 
     const renderRedirect = () => {
         if (value.id) {
-            return <Redirect to='/publications' />
+            return <Redirect to='/publications'/>
         }
     };
 
@@ -97,10 +95,10 @@ export default function SignUp() {
     return (
         <Container component="main" maxWidth="xs">
             {value.id && (renderRedirect())}
-            <CssBaseline />
+            <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Registruotis
@@ -175,7 +173,7 @@ export default function SignUp() {
                         color="primary"
                         className={classes.submit}
                     >
-                       Registruotis
+                        Registruotis
                     </Button>
                 </form>
             </div>

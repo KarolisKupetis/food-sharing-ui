@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import  { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import UserContext from "../UserContext";
 import Swal from 'sweetalert2'
@@ -42,35 +42,35 @@ export default function SignIn() {
     const [password, setPassword] = useState("");
     const [redirect, setRedirect] = useState(false);
 
-   async function onSubmit(e) {
+    async function onSubmit(e) {
         e.preventDefault();
 
-        const requestOptions ={
+        const requestOptions = {
             credentials: 'include',
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, password: password})
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email: email, password: password})
         };
 
-       const response = await fetch('http://localhost:8080/auth', requestOptions);
-       const data = await response.json();
+        const response = await fetch('http://localhost:8080/auth', requestOptions);
+        const data = await response.json();
 
-       if (data.detail == "Failed Validation") {
-           Swal.fire({
-               icon: 'error',
-               title: 'Oops...',
-               text: 'Netinkamas slaptažodis arba elektronins paštas',
-           });
+        if (data.detail == "Failed Validation") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Netinkamas slaptažodis arba elektronins paštas',
+            });
 
-       } else {
-           Swal.fire({
-               icon: 'success',
-               text: 'Sėkmingai prisijungėte',
-           });
+        } else {
+            Swal.fire({
+                icon: 'success',
+                text: 'Sėkmingai prisijungėte',
+            });
 
-           setValue({id: data.id});
-           setRedirect(true);
-       }
+            setValue({id: data.id});
+            setRedirect(true);
+        }
     }
 
     function handleChange(event) {
@@ -85,7 +85,7 @@ export default function SignIn() {
         return (
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Prisijungimas
@@ -116,7 +116,7 @@ export default function SignIn() {
                         onChange={handleChange}
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
+                        control={<Checkbox value="remember" color="primary"/>}
                         label="Prisiminti mane"
                     />
                     <Button
@@ -135,13 +135,13 @@ export default function SignIn() {
 
     function redirectToDash() {
         if (redirect === true || value.id) {
-            return <Redirect to='/publications' />
+            return <Redirect to='/publications'/>
         }
     }
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             {redirect ? redirectToDash() : getRender()}
         </Container>
     );

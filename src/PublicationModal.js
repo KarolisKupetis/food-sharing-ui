@@ -42,14 +42,14 @@ class PublicationModal extends Component {
             description: props.publication.description,
             category: props.publication.category,
             file: '',
-            latitude : parseFloat(props.publication.latitude),
-            longitude : parseFloat(props.publication.longitude),
+            latitude: parseFloat(props.publication.latitude),
+            longitude: parseFloat(props.publication.longitude),
             imageLink: props.publication.imageLink,
             loaded: false,
             redirect: false,
             publication: props.publication,
             modalSet: props.modalSet,
-            styles:props.getStyles,
+            styles: props.getStyles,
         }
     }
 
@@ -59,18 +59,18 @@ class PublicationModal extends Component {
         for (let name in this.state) {
             if (name === 'file') {
                 formData.append('image', this.state[name]);
-            } else if(name !== "loaded" && name !=="redirect" && name !== "publicaton" && name !== "modalSet" && name !== "styles" ){
+            } else if (name !== "loaded" && name !== "redirect" && name !== "publicaton" && name !== "modalSet" && name !== "styles") {
                 formData.append(name, this.state[name]);
             }
         }
 
-        const requestOptions ={
+        const requestOptions = {
             method: 'PUT',
             credentials: 'include',
             body: formData
         };
 
-        const response = await fetch('http://localhost:8080/publication/'+this.state.publication.id, requestOptions);
+        const response = await fetch('http://localhost:8080/publication/' + this.state.publication.id, requestOptions);
 
         if (response.status == "200") {
             Swal.fire({
@@ -98,20 +98,20 @@ class PublicationModal extends Component {
     onChange = (event) => {
         const {name, value} = event.target;
 
-        this.setState({[name] : value});
+        this.setState({[name]: value});
     };
 
     onImageUpload = (event) => {
         if (event.target.files[0]) {
             this.setState({
-                file:event.target.files[0],
+                file: event.target.files[0],
                 image: URL.createObjectURL(event.target.files[0])
             });
         }
     };
 
     onLatLonChange = (lat, lng) => {
-        this.setState({latitude : lat, longitude: lng});
+        this.setState({latitude: lat, longitude: lng});
     };
 
     render() {
@@ -199,8 +199,10 @@ class PublicationModal extends Component {
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={2}>
-                                        {this.state.image ? <CardMedia style={{ height: "250px", width: "300px"}} image={this.state.image} />
-                                            : <CardMedia style={{height: "250px", width: "300px"}} image={this.state.publication.imageLink}/>}
+                                        {this.state.image ? <CardMedia style={{height: "250px", width: "300px"}}
+                                                                       image={this.state.image}/>
+                                            : <CardMedia style={{height: "250px", width: "300px"}}
+                                                         image={this.state.publication.imageLink}/>}
                                     </Grid>
                                 </Grid>
                             </div>
