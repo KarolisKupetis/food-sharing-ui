@@ -45,14 +45,13 @@ export default function SignUp() {
     async function onSubmit(e) {
         e.preventDefault();
 
-        const requestOptions = {
+        const response = await fetch('http://localhost:8080/user', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify({email: email, password: password, fullName: name + " " + surname, number: number})
-        };
+        });
 
-        const response = await fetch('http://localhost:8080/user', requestOptions);
         const data = await response.json();
 
         if (data.status == 422 || data.status == 409) {

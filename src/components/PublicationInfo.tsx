@@ -5,22 +5,42 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {Redirect} from "react-router-dom";
 
-class PublicationInfo extends Component {
+interface publicationInfo {
+    id: number;
+    title: string;
+    description: string;
+    category: string;
+    file?: File;
+    latitude: number;
+    longitude: number;
+    imageLink?: string;
+    userName: string;
+    number: string;
+    loaded: boolean;
+    redirect: boolean;
+    google: object;
+    match: { params: { id: number } };
+}
+
+class PublicationInfo extends Component<{}, publicationInfo> {
     constructor(props) {
         super(props);
 
         this.state = {
+            id: props.id,
             title: '',
             description: '',
             category: 'veg',
-            file: '',
+            file: null,
             latitude: 12,
             longitude: 12,
-            imageLink: '',
+            imageLink: null,
             userName: '',
             number: '',
             loaded: false,
-            redirect: false
+            redirect: false,
+            google: props.google,
+            match: props.match,
         }
     }
 
@@ -37,10 +57,10 @@ class PublicationInfo extends Component {
     }
 
     fetchData = async () => {
-        const url = "http://localhost:8080/publication/" + this.props.match.params.id;
+        const url = "http://localhost:8080/publication/" + this.state.match.params.id;
         const response = await fetch(url);
         const data = await response.json();
-
+        console.log(data);
         this.setState(
             {
                 title: data.name,
@@ -49,7 +69,7 @@ class PublicationInfo extends Component {
                 latitude: parseFloat(data.latitude),
                 longitude: parseFloat(data.longitude),
                 imageLink: data.imageLink,
-                userName: data.user.fullName,
+                userName: data.user.name,
                 number: data.user.number,
                 loaded: true
             }
@@ -61,7 +81,7 @@ class PublicationInfo extends Component {
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                     <Map
-                        google={this.props.google}
+                        google={this.state.google}
                         center={{lat: this.state.latitude, lng: this.state.longitude}}
                         height='300px'
                         zoom={14}

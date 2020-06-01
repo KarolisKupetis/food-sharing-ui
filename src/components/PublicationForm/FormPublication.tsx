@@ -33,7 +33,19 @@ const types = [
     },
 ];
 
-class FormPublication extends Component {
+interface FormPublicationProps {
+    title: string;
+    description: string;
+    category: 'vegetable'|'fruit'|'veg'|'full'|'ingredient';
+    file?: File;
+    latitude: number;
+    longitude: number;
+    loaded: boolean;
+    google: object;
+    image?: string;
+}
+
+class FormPublication extends Component<{} , FormPublicationProps> {
     static contextType = UserLocationContext;
 
     constructor(props) {
@@ -43,10 +55,12 @@ class FormPublication extends Component {
             title: '',
             description: '',
             category: 'veg',
-            file: '',
+            file: null,
             latitude: 54.705316192588626,
             longitude: 25.303910311889645,
-            loaded: false
+            loaded: false,
+            google: props.google,
+            image: null
         }
     }
 
@@ -61,7 +75,13 @@ class FormPublication extends Component {
 
     onChange = (event) => {
         const {name, value} = event.target;
-        this.setState({[name]: value});
+        if (name === 'description') {
+            this.setState({description: value});
+        } else if (name === 'title') {
+            this.setState({title: value});
+        } else if (name === 'category') {
+            this.setState({category: value});
+        }
     };
 
     onLatLonChange = (lat, lng) => {
@@ -77,18 +97,17 @@ class FormPublication extends Component {
             title: '',
             description: '',
             category: 'veg',
-            file: '',
+            file: null,
             image: '',
-            name: '',
         })
     };
 
-    onSubmit = async (event) => {
+    onSubmit = async () => {
         const formData = new FormData();
         for (let name in this.state) {
             if (name === 'file') {
                 formData.append('image', this.state[name]);
-            } else if (name != "loaded") {
+            } else if (name != "loaded" && name != "google") {
                 formData.append(name, this.state[name]);
             }
         }
@@ -98,10 +117,14 @@ class FormPublication extends Component {
             credentials: 'include',
             body: formData
         };
+            //requestOptions
+        const response = await fetch('http://localhost:8080/publication', {
+            method: 'POST',
+            credentials: 'include',
+            body: formData
+        });
 
-        const response = await fetch('http://localhost:8080/publication', requestOptions);
-
-        if (response.status == "201") {
+        if (response.status == 201) {
             Swal.fire({
                 icon: 'success',
                 text: "Sėkmingai sukurtas įrašas"
@@ -174,11 +197,12 @@ class FormPublication extends Component {
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={8}>
                         <Map
-                            google={this.props.google}
+                            google={this.state.google}
                             center={{lat: this.state.latitude, lng: this.state.longitude}}
                             height='300px'
                             zoom={14}
                             onLatchange={this.onLatLonChange}
+                            dynamic={true}
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>

@@ -6,7 +6,20 @@ import UserLocationContext from "./UserLocationContext";
 import Button from "@material-ui/core/Button";
 import {Redirect} from 'react-router-dom'
 
-export default class PublicationList extends Component {
+interface publicationListProps {
+    id?: number;
+}
+
+interface publicationListState {
+    loading: boolean;
+    id?: number;
+    pubs: any;
+    redirect: boolean;
+    redirectPersonal: boolean;
+    category: string,
+}
+
+export default class PublicationList extends Component<publicationListProps, publicationListState> {
     static contextType = UserLocationContext;
 
     constructor(props) {
@@ -22,10 +35,10 @@ export default class PublicationList extends Component {
         };
     }
 
-    getPublication = coffeMakerObj => {
+    getPublication = publication => {
         return (
-            <Grid item xs={12} sm={4} key={coffeMakerObj.id}>
-                <Publication {...coffeMakerObj}/>
+            <Grid item xs={12} sm={4} key={publication.id}>
+                <Publication {...publication}/>
             </Grid>
         );
     };
@@ -55,7 +68,7 @@ export default class PublicationList extends Component {
     };
 
     async componentDidMount() {
-        this.getPublications();
+        this.getPublications('');
     }
 
     setPublications = (publications) => {
@@ -107,7 +120,7 @@ export default class PublicationList extends Component {
                     {this.state.id && this.getPublicationsButton2()}
                 </Grid>
                 <Grid container spacing={4}>
-                    {this.state.pubs.map(coffeMakerObj => this.getPublication(coffeMakerObj))}
+                    {this.state.pubs.map(publications => this.getPublication(publications))}
                 </Grid>
             </div>
         )

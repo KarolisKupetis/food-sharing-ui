@@ -63,14 +63,13 @@ export default function MyPublications(props) {
     }
 
     async function deletePublication(id) {
-        const requestOptions = {
+
+        const response = await fetch('http://localhost:8080/publication/' + id, {
             method: 'DELETE',
             credentials: 'include',
-        };
+        });
 
-        const response = await fetch('http://localhost:8080/publication/' + id, requestOptions);
-
-        if (response.status == "204") {
+        if (response.status == 204) {
             getPublications();
             Swal.fire({
                 icon: 'success',
@@ -104,7 +103,7 @@ export default function MyPublications(props) {
             <Grid item xs={12} sm={2}>
             </Grid>
             <Grid item xs={12} sm={8}>
-                <List dense className={classes.root}>
+                <List dense>
                     {publications.map((pub) => {
                         const labelId = `checkbox-list-secondary-label-${pub.id}`;
                         return (

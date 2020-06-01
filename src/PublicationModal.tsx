@@ -32,7 +32,30 @@ const types = [
     },
 ];
 
-class PublicationModal extends Component {
+interface publicationModalProps {
+    publication: object,
+    modalSet: (flag: boolean) => void;
+    getStyles: (styleName: string) => string;
+}
+
+interface publicationInfo {
+    title: string;
+    description: string;
+    category: string;
+    file?: File;
+    latitude: number;
+    longitude: number;
+    imageLink?: URL;
+    loaded: boolean;
+    redirect: boolean;
+    publication: {id: number, imageLink: string};
+    modalSet: (flag: boolean) => void;
+    styles: (styleName: string) => string;
+    google: object;
+    image?: string;
+}
+
+class PublicationModal extends Component<publicationModalProps, publicationInfo> {
 
     constructor(props) {
         super(props);
@@ -41,7 +64,7 @@ class PublicationModal extends Component {
             title: props.publication.name,
             description: props.publication.description,
             category: props.publication.category,
-            file: '',
+            file: null,
             latitude: parseFloat(props.publication.latitude),
             longitude: parseFloat(props.publication.longitude),
             imageLink: props.publication.imageLink,
@@ -50,29 +73,36 @@ class PublicationModal extends Component {
             publication: props.publication,
             modalSet: props.modalSet,
             styles: props.getStyles,
+            google: props.google,
+            image: ''
         }
     }
 
-    onSubmit = async (event) => {
+    onSubmit = async () => {
         const formData = new FormData();
 
         for (let name in this.state) {
             if (name === 'file') {
                 formData.append('image', this.state[name]);
-            } else if (name !== "loaded" && name !== "redirect" && name !== "publicaton" && name !== "modalSet" && name !== "styles") {
+            } else if (name !== "loaded"
+                && name !== "redirect"
+                && name !== "publicaton"
+                && name !== "modalSet"
+                && name !== "styles"
+                && name !== "google"
+            )
+            {
                 formData.append(name, this.state[name]);
             }
         }
 
-        const requestOptions = {
+        const response = await fetch('http://localhost:8080/publication/' + this.state.publication.id, {
             method: 'PUT',
             credentials: 'include',
             body: formData
-        };
+        });
 
-        const response = await fetch('http://localhost:8080/publication/' + this.state.publication.id, requestOptions);
-
-        if (response.status == "200") {
+        if (response.status == 200) {
             Swal.fire({
                 icon: 'success',
                 text: 'Sėkmingai atnaujintas įrašas',
@@ -98,7 +128,13 @@ class PublicationModal extends Component {
     onChange = (event) => {
         const {name, value} = event.target;
 
-        this.setState({[name]: value});
+        if (name === 'description') {
+            this.setState({description: value});
+        } else if (name === 'title') {
+            this.setState({title: value});
+        } else if (name === 'category') {
+            this.setState({category: value});
+        }
     };
 
     onImageUpload = (event) => {
@@ -191,11 +227,12 @@ class PublicationModal extends Component {
                                 <Grid container spacing={4}>
                                     <Grid item xs={12} sm={6}>
                                         <Map
-                                            google={this.props.google}
+                                            google={this.state.google}
                                             center={{lat: this.state.latitude, lng: this.state.longitude}}
                                             height='200px'
                                             zoom={14}
                                             onLatchange={this.onLatLonChange}
+                                            dynamic={true}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={2}>
